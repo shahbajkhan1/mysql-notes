@@ -22,7 +22,7 @@ from employees e
 join employees m
 on e.manager_id = m.emp_id
 join employees gm
-ON m.manager_id = gm.emp_id;
+where m.manager_id = gm.emp_id;
 
 select distinct m.emp_id, m.emp_name
 from employees e
