@@ -56,4 +56,69 @@ select * from biodata where
 age not in (select age from biodata where name = 'anjali' or name = 'Aishwariya')
 and name != 'Rahul';
 
+CREATE TABLE Employees (
+EMP_ID INT PRIMARY KEY,
+NAME VARCHAR(50),
+DEPARTMENT VARCHAR(50),
+SALARY INT,
+MANAGER_ID INT
+);
+-- Insert Data
+INSERT INTO Employees (EMP_ID, NAME, DEPARTMENT, SALARY, MANAGER_ID) VALUES
+(101, 'Alice', 'HR', 50000, NULL),
+(102, 'Bob', 'IT', 80000, 101),
+(103, 'Charlie', 'IT', 75000, 101),
+(104, 'Diana', 'Finance', 90000, NULL),
+(105, 'Eve', 'HR', 48000, 101),
+(106, 'Frank', 'Finance', 95000, 104),
+(107, 'Grace', 'IT', 82000, 101);
+
+select * from employees;
+
+select * from employees where salary>(select avg(salary) from employees);
+
+select * from employees where salary=(select max(salary) from employees);
+
+select salary from employees where emp_id = 101;
+select * from employees where salary > (select salary from employees where emp_id = 101);
+
+select min(salary) from employees;
+select department from employees where salary = (select min(salary) from employees); 
+
+select * from employees
+where department in (select department from employees where name ='Alice' or name= 'Bob');
+
+select salary from employees where emp_id = 103 or emp_id = 105;
+select * from employees where salary not in (select salary from employees where emp_id = 103 or emp_id = 105);
+
+-- ANY operator -->  
+select * from employees where salary  > any (select salary from employees where emp_id = 103 or emp_id = 105);
+
+select * from employees where department = 'HR';
+select * from employees where salary  > any(select salary from employees where department = 'HR');
+
+-- ALL operator -->
+select * from employees where salary  > all (select salary from employees where department = 'HR');
+
+select salary from employees where department = 'IT';
+select * from employees where salary  > all (select salary from employees where department = 'IT');
+
+-- find the details who works in it departemnt and who have salary greater then the salary of imp_id 101
+select * from employees where department = 'IT';
+select * from employees where emp_id = 101;
+select * from employees where department in (select emp_id from employees where department = 'IT')
+and salary > any(select salary from employees where emp_id = 101);
+
+-- find name of person who salary greater then all this salary of hr and it department
+select salary from employees where department = 'HR' or department = 'IT';
+select * from employees where salary >all (select salary from employees where department = 'HR' or department = 'IT');
+
+-- find the employees id and employees name of the user who slary is greater then the salary of any employee work under mangar id 101
+select emp_id,name from employees where salary > any (select salary from employees where manager_id = 101);
+
+-- find the second highest salary in this tables
+select max(salary) from employees;
+select max(salary) as second_highest_salary from employees where salary < (select max(salary) from employees);
+
+
 
