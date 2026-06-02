@@ -38,3 +38,41 @@ select * from city_sum;
 create view emp_2 as select emp_id , name from employees;
 
 select name from emp_2;
+
+insert into emp_2 values (107,'yash');
+select * from emp_2;
+
+delete from emp_2 where emp_id = 101;
+select * from employees;
+
+delete from employees where emp_id = 102;
+select * from emp_2;
+
+update emp_2 set name = 'shahbaj' where emp_id = 103;
+
+create view group_city as select city, count(city) from employees group by city;
+select * from group_city;
+
+update group_city set city = 'rajasthan' where name = 'Mumbai';
+
+CREATE OR REPLACE VIEW emp_view AS
+SELECT
+    e.emp_id,
+    e.name,
+    e.salary,
+    d.dept_name
+FROM employees e
+JOIN departments d
+ON e.dept_id = d.dept_id;
+
+select * from emp_view;
+
+update emp_view set emp_id = 100 , name = 'happy' , dept_name = 'jgb';
+
+UPDATE emp_view
+SET emp_id = 100,
+    name = 'happy'
+WHERE emp_id = 103;
+
+UPDATE departments SET dept_name = 'jgb' WHERE dept_id = 1;
+select * from departments;
